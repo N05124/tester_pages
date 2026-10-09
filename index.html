@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Docs2Wallet Test Pages</title>
+<meta name="description" content="Index of fictional test pages used to exercise the Docs2Wallet app's import flows.">
+<meta name="robots" content="noindex">
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #f5f5f7; --card: #ffffff; --text: #1d1d1f; --muted: #6e6e73; --line: #d2d2d7; --accent: #0a66c2; --tag: #e8f0fe;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #000; --card: #1c1c1e; --text: #f5f5f7; --muted: #98989d; --line: #38383a; --accent: #4da3ff; --tag: #1f2a3a; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.5 -apple-system, system-ui, sans-serif; }
+  main { max-width: 640px; margin: 0 auto; padding: 24px 16px 48px; }
+  h1 { margin: 0 0 4px; font-size: 28px; }
+  .sub { margin: 0 0 24px; color: var(--muted); }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 16px; margin-bottom: 14px; }
+  .card h2 { margin: 0 0 6px; font-size: 19px; }
+  .card h2 a { color: var(--accent); text-decoration: none; }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0 10px; }
+  .tag { background: var(--tag); border-radius: 999px; padding: 1px 10px; font-size: 13px; }
+  dl { display: grid; grid-template-columns: max-content 1fr; gap: 4px 12px; margin: 0 0 12px; font-size: 15px; }
+  dt { color: var(--muted); }
+  dd { margin: 0; }
+  .url { font: 13px ui-monospace, SFMono-Regular, Menlo, monospace; word-break: break-all; background: var(--bg); border-radius: 8px; padding: 8px; margin-bottom: 10px; user-select: all; }
+  .actions { display: flex; gap: 8px; flex-wrap: wrap; }
+  .btn { appearance: none; border: 1px solid var(--line); background: var(--card); color: var(--accent); border-radius: 10px; padding: 8px 14px; font: inherit; font-size: 15px; text-decoration: none; cursor: pointer; }
+  .btn.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+  footer { color: var(--muted); font-size: 13px; margin-top: 24px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Docs2Wallet Test Pages</h1>
+  <p class="sub">Fictional, clearly labeled pages for testing the app. Pick a test, copy its link, and import it in Docs2Wallet.</p>
+
+  <!--
+    HOW TO ADD A TEST: copy one <article class="card"> block below, change the folder, title,
+    tags, details and expected result, and create the matching folder (e.g. /my-new-test/index.html).
+  -->
+
+  <article class="card" id="url-pass-test">
+    <h2><a href="url-pass-test/">URL pass test creation</a></h2>
+    <div class="tags">
+      <span class="tag">Paste link</span>
+      <span class="tag">Event ticket</span>
+      <span class="tag">Future date</span>
+      <span class="tag">QR code</span>
+    </div>
+    <dl>
+      <dt>Event</dt><dd>Docs2Wallet Test Night</dd>
+      <dt>When</dt><dd>Sat, Nov 21, 2026 · 7:00–10:00 PM MST</dd>
+      <dt>Where</dt><dd>Threaded Realm Test Hall, Denver, CO</dd>
+      <dt>Ticket #</dt><dd>D2W-TEST-20261121-0001</dd>
+      <dt>Steps</dt><dd>Copy link → Docs2Wallet → Paste link → Confirm → Add to Apple Wallet</dd>
+      <dt>Expected</dt><dd>Review shows the title, date, time and venue above; the pass appears in the main Wallet stack (not Expired Passes).</dd>
+    </dl>
+    <div class="url" data-url="url-pass-test/"></div>
+    <div class="actions">
+      <a class="btn primary" href="url-pass-test/">Open test page</a>
+      <button class="btn" type="button" data-copy="url-pass-test/">Copy link</button>
+    </div>
+  </article>
+
+  <footer>All events on these pages are fictional and exist only to test Docs2Wallet. Not affiliated with any real venue or organizer.</footer>
+</main>
+<script>
+  // Show and copy absolute URLs so they paste correctly into the app.
+  const abs = (p) => new URL(p, location.href).href;
+  document.querySelectorAll('[data-url]').forEach(el => { el.textContent = abs(el.dataset.url); });
+  document.querySelectorAll('[data-copy]').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const url = abs(btn.dataset.copy);
+      try {
+        await navigator.clipboard.writeText(url);
+        btn.textContent = 'Copied ✓';
+      } catch {
+        btn.textContent = 'Long-press the link above to copy';
+      }
+      setTimeout(() => { btn.textContent = 'Copy link'; }, 2500);
+    });
+  });
+</script>
+</body>
+</html>
